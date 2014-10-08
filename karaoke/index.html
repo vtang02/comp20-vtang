@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Daydream Believer</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+<h1 id="title">Daydream Believer</h1>
+
+<video src="http://www.cs.tufts.edu/comp/20/daydream_believer.webm" 
+  id="music_video" controls></video>
+<div id="lyrics"></div>
+
+<script>
+	string0 = <p>"" </p>;
+	string1 = <p> </p>
+
+
+	function changetext()
+	{
+		if (video.currentTime <= 5) {
+			lyrics.innerHTML = "string0";
+		} else if ((video.currentTime>5) && (video.currentTime<=37)) {
+			lyrics.innerHTML = "string1";
+		} else if ((video.currentTime>37) && (video.currentTime<=54)) {
+			lyrics.innerHTML = "string2";
+		} else if ((video.currentTime>54) && (video.currentTime<=85)) {
+			lyrics.innerHTML = "string3";
+		} else if ((video.currentTime>85) && (video.currentTime<=120)) {
+			lyrics.innerHTML = "string4";
+		} else if ((video.currentTime>120) && (video.currentTime<=127)){
+			lyrics.innerHTML = "string5";
+		} else {
+			lyrics.innerHTML = "string6";
+		}
+	}
+
+	lyrics = document.getElementById("lyrics");
+	video = document.getElementById("music_video");
+	video.addEventListener("timeupdate", changetext, false);
+	
+</script>
+</body>
+</html>	
