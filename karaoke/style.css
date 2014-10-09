@@ -1,1 +1,23 @@
 /*stylesheet for karaoke*/
+
+body {
+	background-color: #AFEEEE;
+	font-family: 'serif';
+}
+
+#title {
+	font-size: 50px;
+	color: #FFFFFF;
+	text-align: center;
+}
+
+#music_video {
+	display: block;
+	margin: 0 auto;	
+}
+
+#lyrics {
+	text-align: center;
+	font-size: 25px;
+	color: #FFFFFF;
+}	
