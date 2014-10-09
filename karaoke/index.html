@@ -24,22 +24,53 @@
 	string1 += "Wipe the sleep out of my eyes.<br>";
 	string1 += "My shavin' razor's cold and it stings.</p>";
 
+	string2 = "<p>Cheer up, Sleepy Jean.<br>";
+	string2 += "Oh, what can it mean.<br>";
+	string2 += "To a daydream believer<br>";
+	string2 += "And a homecoming queen.</p>";
+
+	string3 = "<p>You once thought of me.<br>";
+	string3 += "As a white knight on a steed..<br>";
+	string3 += "Now you know how happy I can be..<br>";
+	string3 += "Oh, and our good times start and end.<br>";
+	string3 += "Without dollar one to spend.<br>";
+	string3 += "But how much, baby, do we really need.</p>";
+
+	string4 = "<p> Cheer up, Sleepy Jean.<br>";
+	string4 += "Oh, what can it mean.<br>";
+	string4 += "To a daydream believer<br>";
+	string4 += "And a homecoming queen.<br>";
+	string4 += "Cheer up, Sleepy Jean.<br>";
+	string4 += "Oh, what can it mean.<br>";
+	string4 += "To a daydream believer<br>";
+	string4 += "And a homecoming queen.</p>";
+
+	string5 = "<p>[Instrumental interlude] </p>";
+
+	string6 = "<p>Cheer up, Sleepy Jean.<br>";
+	string6 += "Oh, what can it mean.<br>";
+	string6 += "To a daydream believer<br>";
+	string6 += "And a homecoming queen.<br>";
+	string6 += "[Repeat and fade] </p>";
+
 	function changetext()
 	{
-		if (video.currentTime <= 5) {
+		time = video.currentTime;
+		
+		if (time <= 6.5) {
 			lyrics.innerHTML = string0;
-		} else if ((video.currentTime>5) && (video.currentTime<=37)) {
+		} else if ((time > 6.5) && (time <= 38)) {
 			lyrics.innerHTML = string1;
-		} else if ((video.currentTime>37) && (video.currentTime<=54)) {
-			lyrics.innerHTML = "string2";
-		} else if ((video.currentTime>54) && (video.currentTime<=85)) {
-			lyrics.innerHTML = "string3";
-		} else if ((video.currentTime>85) && (video.currentTime<=120)) {
-			lyrics.innerHTML = "string4";
-		} else if ((video.currentTime>120) && (video.currentTime<=127)){
-			lyrics.innerHTML = "string5";
+		} else if ((time > 38) && (time <= 55.5)) {
+			lyrics.innerHTML = string2;
+		} else if ((time > 55.5) && (time <= 86)) {
+			lyrics.innerHTML = string3;
+		} else if ((time > 86) && (time <= 120)) {
+			lyrics.innerHTML = string4;
+		} else if ((time > 120) && (time <= 127)){
+			lyrics.innerHTML = string5;
 		} else {
-			lyrics.innerHTML = "string6";
+			lyrics.innerHTML = string6;
 		}
 	}
 
