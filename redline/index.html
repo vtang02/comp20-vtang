@@ -7,6 +7,41 @@
 	<meta charset="utf-8" />
 	<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
 	<script>
+	//get data from mbta
+		xhr = new XMLHttpRequest();
+		xhr.open("GET", "http://developer.mbta.com/lib/rthr/red.json",
+			 true);
+		xhr.send();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+			data = JSON.parse(xhr.responseText);
+			getPosition(data);
+			}
+			console.log("readystate, " + xhr.readyState);
+			console.log("responsetext, " + xhr.responseText);
+		}
+	//find the the trains
+		function getPosition(data) {
+			for (i = 0; i < data.length; i++) {	
+				if (data[i]["position"] != NULL) {
+					lat = data[i]["position"]["Lat"];
+					long = data[i]["position"]["Long"];
+					marker(lat,long);
+					console.log(lat);
+				}
+			}
+		}
+
+	//create marker
+		function marker(lat, long) {
+			LatLong = new google.maps.LatLng(lat,long);
+			marker = new google.maps.Marker({
+    				position: LatLong,
+    				map: map,
+			});
+		}
+
+	//render google maps
 		function initialize() {
 			latlng = new google.maps.LatLng(42.3581,-71.0636);
 
@@ -16,7 +51,8 @@
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
 
-			map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+			map = new google.maps.Map(document.getElementById(
+				"map_canvas"), myOptions);
 		}
 	</script>
 </head>
