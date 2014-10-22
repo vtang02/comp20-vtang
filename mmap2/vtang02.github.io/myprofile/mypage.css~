@@ -1,0 +1,10 @@
+/*
+style all elements of h1
+h1 {font-size: 75px;
+    color: #33CCFF;}
+*/
+
+.welcome {font-size: 75px;
+	  color: #33CCFF;}
+
+.picofme {width: 400px;}

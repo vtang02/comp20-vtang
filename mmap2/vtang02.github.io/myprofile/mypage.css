@@ -1,0 +1,55 @@
+
+body {
+	background-color: #AFEEEE;
+	font-family: 'serif';
+}
+
+.welcome {
+	font-size: 75px;
+	color: #FFFFFF;
+	text-align: center;
+}
+
+.picofme {
+	margin: 0 auto;
+	width: 500px;
+}
+
+.picofme2{
+	width: 400px;
+}
+
+.vtang02 { 
+	font-size: 50px;
+	color: #FFFFFF;
+	text-align: center;
+}
+
+.selfie {
+	font-size: 30px;
+	color: #FFFFFF;
+}
+
+.links {
+	text-align: center;
+}
+
+.links3 {
+	font-size: 35px;
+	color: #FFFFFF;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+div.biotext {
+	color: #FFFFFF;
+	font-size: 27px;
+}
+
+div.resumedoc {
+	color: #000000;
+	margin: 0 auto;
+	width: 1000px;
+	background-color: #FFFFFF;
+}
+
