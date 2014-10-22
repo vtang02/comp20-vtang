@@ -92,7 +92,6 @@
 	function parseJson(data) {
 	          var distanceToMe="<br>";
 	          theJson = JSON.parse(data);
-	          console.log(theJson);
 
 	        //characters
 	        for (i = 0; i < theJson["characters"].length; i++) { 
@@ -107,9 +106,7 @@
 			distanceToMe = distanceToMe + "Distance from " + 
 				       charName + " to me: " + 
 				       distance(charLat, charLng) +
-				       " miles" + "<br>";
-		//	console.log(distanceToMe);
-			
+				       " miles" + "<br>";			
 		}
 
 		//students
@@ -136,8 +133,7 @@
 				
 		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
 		var d = radius * c; //d is distance
-		var distrounded = Math.round(d);
-		return distrounded; 
+		return d; 
 	}
 
 	function toRad (x) {
@@ -145,7 +141,6 @@
 	}
 
 	function makeStuMarkerInfo(lat, lng, login, time) {
-		console.log("in makeStuMarkerInfo");
 		newStuPos = new google.maps.LatLng(lat, lng);
 		var markerPos = new google.maps.Marker({
 	                                position: newStuPos,
@@ -153,8 +148,8 @@
 		
 		markerPos.setMap(map);
 
-		var windowContentX = login + " " + Math.round(lat) + "," + 
-		Math.round(lng) + " " + time;
+		var windowContentX = login + " " + lat + "," + 
+		lng + " " + time;
 		
 		google.maps.event.addListener(markerPos, 'click', 
 		function() {
@@ -188,10 +183,9 @@
 
 		markerChar.setMap(map);
 
-		//create string for setContent, name/lat/long/note
+		//create string for Char infowindows
 		var windowContent = name + " " + Math.round(lat) + "," + 
 				Math.round(long) + " " + note;
-		console.log(windowContent);
 
 		google.maps.event.addListener(markerChar, 'click', 
 		function() {
