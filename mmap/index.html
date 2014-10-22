@@ -26,7 +26,8 @@
 
 	function init()
 	{
-		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+		map = new google.maps.Map(document.getElementById(
+	                                  "map_canvas"), myOptions);
 		getMyLocation();
 	}
 
@@ -56,10 +57,9 @@
 		xhr.onreadystatechange = function() {
 			if(xhr.readyState == 4 && xhr.status == 200) {
  			      var distString = parseJson(xhr.responseText);
-	                     //create a marker for ME
-	                     //resize my icon
-
-	         var iconme = {
+	                     
+	        //create a marker for ME
+	        var iconme = {
 	                 url: "me.jpg", // url
 	                 scaledSize: new google.maps.Size(20, 20), // size
 	                 origin: new google.maps.Point(0,0), // origin
@@ -67,7 +67,8 @@
 
 	        marker = new google.maps.Marker({
 	                                position: me,
-					title: "Me!"+ distString, 
+					title: "Me!<br>"+ Math.round(myLat) + 
+	                                        Math.round(myLng) + distString, 
 	                                icon: iconme
 		});
 	        
@@ -92,8 +93,6 @@
 	          var distanceToMe="<br>";
 	          theJson = JSON.parse(data);
 	          console.log(theJson);
-	   //     console.log(theJson["characters"].length);
-	     //   console.log(theJson["characters"][0]["name"]);
 
 	        //characters
 	        for (i = 0; i < theJson["characters"].length; i++) { 
@@ -121,14 +120,14 @@
 			stuTime=theJson["students"][i]["created_at"];
 			makeStuMarkerInfo(stuLat, stuLng, stuLogin, stuTime);
 		}
-		return distanceToMe; //will return to parseJson--cant be used
+		return distanceToMe; 
 	}
 	
 	function distance (charlat, charlong) {
 		var radius = 3959; //miles 
-		var x1 = charlat - myLat;  //var x1 = lat2-lat1; in example
+		var x1 = charlat - myLat;  
 		var dLat = toRad(x1); 
-		var x2 = charlong - myLng;  //var x2 = lon2-lon1;
+		var x2 = charlong - myLng;  
 		var dLon = toRad(x2);
 
 		var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
@@ -154,7 +153,6 @@
 		
 		markerPos.setMap(map);
 
-		//login, latitude, longitude, and timestamp
 		var windowContentX = login + " " + Math.round(lat) + "," + 
 		Math.round(lng) + " " + time;
 		
@@ -169,7 +167,6 @@
 
 	function makeCharMarkerInfo (lat, long, note, name) {
 		var charIcon;
-		console.log("in makecharMarkerInfo");
 		if (name == "carmen") {
 			charIcon = "carmen.png";
 		} else if (name == "nr") {
@@ -198,8 +195,8 @@
 
 		google.maps.event.addListener(markerChar, 'click', 
 		function() {
-			infowindow = new google.maps.InfoWindow();
 			infowindow.close();
+			infowindow = new google.maps.InfoWindow();
 			infowindow.setContent(windowContent);
 			infowindow.open(map, markerChar);
 		});
