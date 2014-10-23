@@ -67,7 +67,7 @@
 
 	        marker = new google.maps.Marker({
 	                                position: me,
-					title: "Me!<br>"+ myLat + 
+					title: "Me!<br>"+ myLat + " , " + 
 	                                        myLng + distString, 
 	                                icon: iconme
 		});
@@ -148,7 +148,7 @@
 		
 		markerPos.setMap(map);
 
-		var windowContentX = login + " " + lat + "," + 
+		var windowContentX = login + " " + lat + " , " + 
 		lng + " " + time;
 		
 		google.maps.event.addListener(markerPos, 'click', 
@@ -184,8 +184,8 @@
 		markerChar.setMap(map);
 
 		//create string for Char infowindows
-		var windowContent = name + " " + Math.round(lat) + "," + 
-				Math.round(long) + " " + note;
+		var windowContent = name + " " + lat + " , " + 
+				long + " " + note;
 
 		google.maps.event.addListener(markerChar, 'click', 
 		function() {
