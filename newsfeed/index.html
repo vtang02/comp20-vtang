@@ -28,9 +28,9 @@
 	  function reload()
 	  {
 	          var messages = $("#news");
-	          var output = "";
+	          
 	          for (key in localStorage) {
-	                  output = output.append("<p>" + localStorage[key]
+	                  messages = messages.appendChild("<p>" + localStorage[key]
 	                            + "</p>\n");
 	          }
 	          messages.innerHTML = output;
