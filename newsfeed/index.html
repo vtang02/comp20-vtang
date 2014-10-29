@@ -3,10 +3,38 @@
 <html>
 
 <head>
+        <meta content="utf-8" http-equiv="encoding">
 	<title>My News Feed</title>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script>
-	  // Most of your work will be done here...
+
+	  function init() 
+	  {
+	          $(document).keypress(function(e) {
+	                  if (e.which == 13) {
+	                          store("#msg");
+	                   }
+	          })	         
+	  }
+
+	  function store()
+	  {
+	          var newmsg = $('#msg');
+	          localStorage.setItem[new Date().getTime()] = newmsg;
+	          reload();
+	  }
+
+	  function reload()
+	  {
+	          var messages = $("#news");
+	          var output = "";
+	          for (key in localStorage) {
+	                  output = output.append("<p>" + localStorage[key]
+	                            + "</p>\n");
+	          }
+	          messages.innerHTML = output;
+	  }
+
 	</script>
 </head>
 
@@ -17,6 +45,7 @@
 </body>
 </html>
 
+<!--
 //on load--init() --loop through local storage
    //create paragraph tag and append body
 //get input, get timestamp
@@ -24,3 +53,4 @@
 //save to local storage
 //create paragraph tag w jquery
 //append to body
+-->
