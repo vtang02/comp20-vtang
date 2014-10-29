@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+t<!DOCTYPE html>
 
 <html>
 
@@ -13,27 +13,29 @@
 	  {
 	          $(document).keypress(function(e) {
 	                  if (e.which == 13) {
-	                          store("#msg");
+	                          //console.log("hi");
+	                          store();
 	                   }
 	          })	         
 	  }
 
 	  function store()
 	  {
-	          var newmsg = $('#msg');
-	          localStorage.setItem[new Date().getTime()] = newmsg;
+	          var newmsg = $('#msg').val();
+	          console.log(newmsg);
+	          localStorage.setItem(new Date().getTime(), newmsg);
 	          reload();
 	  }
 
 	  function reload()
 	  {
-	          var messages = $("#news");
-	          
-	          for (key in localStorage) {
-	                  messages = messages.appendChild("<p>" + localStorage[key]
-	                            + "</p>\n");
-	          }
-	          messages.innerHTML = output;
+	          for (key in localStorage) { 
+		          console.log(key);
+	                  $("#news").append("<p>" + 
+	                  localStorage[key] + "</p>\n");
+	          }   
+	          console.log($("#news"));
+	         // $("#news").html("hi");
 	  }
 
 	</script>
