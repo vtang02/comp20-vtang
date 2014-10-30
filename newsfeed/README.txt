@@ -2,7 +2,7 @@ Victoria Tang
 Lab #7 Newsfeed
 
 1. All aspects of the work have been correctly implemented. 
-   -Messages are displyed in the Newssection
+   -Messages are displyed in the News section
    -Latest message is at the top
    -Used jQuery and localStorage
    -If you come back to the page, messages are redisplayed
