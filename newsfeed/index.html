@@ -31,25 +31,19 @@
 	  {
 	          $("#news").empty();
 	          $("#news").append("News...");
+
 	          var arrayofkeys = new Array();
 	          for (var i = 0; i < localStorage.length; i++) {
 	                  arrayofkeys[i] = localStorage.key(i);
 	          }
+
                   var sortedkeys = arrayofkeys.sort(); //smallest to largest
-		  console.log(sortedkeys);
+		  
                   for (var j = sortedkeys.length - 1; j >= 0; j--) {
 		          $("#news").append("<p>" + sortedkeys[j] + 
 		          " - " + localStorage.getItem(sortedkeys[j]) + 
 	                  "</p>\n");
 		  }
-//	          for (key in localStorage) { 
-//		          console.log(key);
-//	                  $("#news").append("<p>" + 
-//	                  localStorage[key] + "</p>\n");
-//	          }   
-	          //put all the keys in an array 
-	          //sort the array
-	          //loop through the array and append in that order
 	  }
 
 	</script>
