@@ -11,6 +11,7 @@
 
 	  function init() 
 	  {
+	          reload();
 	          $(document).keypress(function(e) {
 	                  if (e.which == 13) {
 	                          store();
@@ -38,7 +39,7 @@
 		  console.log(sortedkeys);
                   for (var j = sortedkeys.length - 1; j >= 0; j--) {
 		          $("#news").append("<p>" + sortedkeys[j] + 
-		          " " + localStorage.getItem(sortedkeys[j]) + 
+		          " - " + localStorage.getItem(sortedkeys[j]) + 
 	                  "</p>\n");
 		  }
 //	          for (key in localStorage) { 
