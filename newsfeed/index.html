@@ -1,4 +1,4 @@
-t<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html>
 
@@ -13,7 +13,6 @@ t<!DOCTYPE html>
 	  {
 	          $(document).keypress(function(e) {
 	                  if (e.which == 13) {
-	                          //console.log("hi");
 	                          store();
 	                   }
 	          })	         
@@ -21,21 +20,24 @@ t<!DOCTYPE html>
 
 	  function store()
 	  {
-	          var newmsg = $('#msg').val();
-	          console.log(newmsg);
-	          localStorage.setItem(new Date().getTime(), newmsg);
-	          reload();
+	         var newmsg = $('#msg').val();
+	         localStorage.setItem(new Date().getTime(), newmsg);
+	         reload();
+	   
 	  }
 
 	  function reload()
 	  {
+	          $("#news").empty();
+	          $("#news").append("News...");
 	          for (key in localStorage) { 
 		          console.log(key);
 	                  $("#news").append("<p>" + 
 	                  localStorage[key] + "</p>\n");
 	          }   
-	          console.log($("#news"));
-	         // $("#news").html("hi");
+	          //put all the keys in an array 
+	          //sort the array
+	          //loop through the array and append in that order
 	  }
 
 	</script>
