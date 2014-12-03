@@ -2,5 +2,64 @@
 
 <!DOCTYPE html>
 <html>
+  <title>arthurwhere security report</title>
+  <link rel="stylesheet" type="text/css" href="securitystyle.css"></link>
+<head>
+<body>
+  <h1>Security Assessment of Arthurwhere herokuapp (Assignment 4)</h1>
 
+  <p>By Victoria Tang</p>
+
+  <h2>Introduction</h2>
+<!--Description of the product and what you were hired to do -->
+  <p>I am testing the security of <a href="http://arthurwhere.herokuapp.com/">arthurwhere</a>, Arthus Berman's <a href="http://tuftsdev.github.io/WebProgramming/assignments/a3.html">Where in the World</a> assignment 3 for COMP20. 
+The product of <a href="http://tuftsdev.github.io/WebProgramming/assignments/a3.html">assignment 3</a> is a web interface that allows the user to see
+the check-in coordinates sent to the MongoDB database. It also allowed users
+to query for a login name and retrieve mbta redline coordinates. This 
+application is also a JSON-based API that allows web developers to submit 
+and retrieve check-in coordinates for Marauder's Map students and find 
+check-ins based on login name.</p>
+  <p>I was hired to find security vulnerabilities in this web application 
+and propose solutions for them. I have found 4 security problems.</p>
+
+  <h2>Methodology</h2>
+  <!--Describe methodology used in testing app, and the tools used -->
+  <p>I began with "black box" testing, where I attacked arthurwhere without
+viewing the source code. I submitted various malicious check-ins to the
+herokuapp by using curl and found several vulnerabilities. Then I viewed the
+source code and did a code review of it. After viewing the source code, I
+was able to better understand how my attacks during black-box testing were
+working.</p>
+
+  <h2>Abstract of Findings</h2>
+  <!--Provide an overview of all the security issues you identified -->
+  <p>The security vulnerabilities I found were all due to the application 
+assuming that user input is valid, correctly formatted, and not malicious.
+We cannot assume that the user will always give input in the correct format.
+For example, a hacker can insert script  and html tags into the login field,
+allowing potentially malicious code and html content to the page. A hacker
+ is also allowed to input whatever lat/lng he wants, thus falsifying his 
+location and potentially. The solution to these input validation problems 
+would be to filter out invalid user input </p>
+
+  <h2>Issues Found</h2>
+  <!--the issue name, location/page where issues was found/severity of isse
+with justification/description of issues--how did you find it and 
+screenshot/proof of vulnerability with screenshot/resolution--show code -->
+  <h3>1. Cross-Site Scripting</h3>
+    <ul>
+      <li>Affects GET API</li>
+      <li>Risk Level:</li>
+      <li><tr><td><img src=" " alt="pre-injection" title="Before injection" /></td>
+      <td><img src=" " alt="post-injection" title="After injection" /></td></tr></li>
+      <li>This issue can be resolved</li>      
+    </ul>
+    
+  <h3>2.</h3>
+  <h3>3.</h3>
+  <h3>4.</h3>
+  
+  <h2>Conclusion</h2>
+</body>
+</head>
 </html>
