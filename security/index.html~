@@ -1,0 +1,131 @@
+<!--Breaking arthurwhere -->
+
+<!DOCTYPE html>
+<html>
+  <title>arthurwhere security report</title>
+  <link rel="stylesheet" type="text/css" href="securitystyle.css"></link>
+<head>
+<body>
+  <h1>Security Assessment of Arthurwhere herokuapp (Assignment 4)</h1>
+
+  <p>By Victoria Tang</p>
+
+  <h2>Introduction</h2>
+<!--Description of the product and what you were hired to do -->
+  <p>I am testing the security of <a href="http://arthurwhere.herokuapp.com/">arthurwhere</a>, Arthus Berman's <a href="http://tuftsdev.github.io/WebProgramming/assignments/a3.html">Where in the World</a> assignment 3 for COMP20. 
+The product of <a href="http://tuftsdev.github.io/WebProgramming/assignments/a3.html">assignment 3</a> is a web interface that allows the user to see
+the check-in coordinates sent to the MongoDB database. It also allowed users
+to query for a login name and retrieve mbta redline coordinates. This 
+application is also a JSON-based API that allows web developers to submit 
+and retrieve check-in coordinates for Marauder's Map students and find 
+check-ins based on login name.</p>
+  <p>I was hired to find security vulnerabilities in this web application 
+and propose solutions for them. I have found 4 security problems.</p>
+
+  <h2>Methodology</h2>
+  <!--Describe methodology used in testing app, and the tools used -->
+  <p>I began with "black box" testing, where I attacked arthurwhere without
+viewing the source code. I submitted various malicious check-ins to the
+herokuapp by using curl and found several vulnerabilities. Then I viewed the
+source code and did a code review of it. After viewing the source code, I
+was able to better understand how my attacks during black-box testing were
+working.</p>
+
+  <h2>Abstract of Findings</h2>
+  <!--Provide an overview of all the security issues you identified -->
+  <p>The security vulnerabilities I found were all due to the application 
+assuming that user input is valid, correctly formatted, and not malicious.
+We cannot assume that the user will always give input in the correct format.
+For example, a hacker can insert script  and html tags into the login field,
+allowing potentially malicious code and html content to the page. A hacker
+ is also allowed to input whatever lat/lng he wants, thus falsifying his 
+location and potentially. The solution to these input validation problems 
+would be to filter out invalid user input </p>
+
+  <h2>Issues Found</h2>
+  
+  <div>
+  <h3>1. Cross-Site Scripting</h3>
+    <ul>
+      <li>Affects /sendLocation page</li>
+      <li><span>Risk: High</span>    Hackers can insert html tags, script 
+tags, and other unexpected input. Users of this API expect valid login names
+and would not be able to handle JSON in an unexpected format.</li>
+      <li>Description: Inserting html or javascript in the login field 
+could cause a user's application to run that code or modify that user's 
+page. In the first screenshot, submitting a login as <code>login="<script type='text/javascript'>alert('1111');</script>"</code> yielded an alert box on the web 
+interface. If a client application received a script as a login, it could
+execute this script, which would be dangerous and could crash the application
+depending on the script contents. Similarly, in the second screenshot, an 
+iframe was inserted into the login field. This type of input is definitely what
+the client application wants.</li>
+      </br></br>
+      <li><img src="1111login.PNG" alt="script alert box"></li>
+      <li><img src="corgi.png" alt="omfg dogs"></li>
+      </br></br>
+      <li>Resolution: This issue can be resolved by sanitizing inputs before 
+they are inserted into the database. HTML escaping on could be done to filter
+out potentially dangerous characters. According to <a href="https://www.owasp.org/index.php/Talk:Testing_for_Cross_site_scripting">OWASP</a>, we could the PHP function strip_tags() to remove html tags and htmlspecialcharacters() to
+encode characters like &, <, and > into html. This way, the client application
+will not mistake input as being executable //WHAT IS THE CODE THO</li>      
+    </ul>
+  </div>
+ 
+  <div>
+  <h3>2. Request Injection Attack</h3>
+      <ul>
+	<li>Affects /locations.json page</li>
+	<li><span>Risk: Medium</span>    Querying the database with 
+"login[$ne]=username" will return all entries in which the login is NOT the same
+as the username. The attacker could use this to trick the server into running
+unintended queries or accessing data with authentication. However, there is a
+solution to this security vulnerability.</li> 
+	<li>Description: Using [$ne] (or other MongoDB fields like $gt to get
+entries greater than or $where to pass javascript functions) can be dangerous.
+If there is private data or check-ins that the client should not be accessing,
+[$ne] would show them this private data. For example, in the image below, 
+querying in [$ne] "break" returned a JSON object with all entries whose logins
+were not "break". However, some of the entries had malicious or improper fields.
+ Perhaps the client should not be able to use those improper entries.</li>
+	</br></br>
+	<li><img src="requestinjection.png" alt="$ne query"></li>
+	</br></br>
+	<li>Resolution: In app.post for sendLocation, we could parse the login 
+for "[", "]", and "$" and then convert them to encoded form. We could also 
+perform character stripping in which we forbid characters like "[", "]", and 
+"$" in the login. //WHAT IS THE CODE THO??</li>
+      </ul>
+  </div>
+  
+  <div>
+  <h3>3. Access Control</h3>
+  <!--the issue name, location where issues was found/severity of issue
+with justification/description of issue--how did you find it and screenshot / 
+proof of vulnerability with screenshot/resolution--show code -->
+     <ul>
+       <li>Affects / , /locations.json, and /redline.json</li>
+       <li><span>Risk: Low</span>   Currently, any and all domains are able
+to access data from the database using this API web application. If our
+database contains private information, we would not want everyone to be able to
+access that information.</li> 
+       <li>Description: </li>
+       <li>Resolution: </li>
+     </ul>
+  </div>
+
+  <div>
+  <h3>4. Falsification of Data</h3>
+     <ul>
+       <li> Affects /sendLocation</li>
+       <li><span>Risk: High</span>    It is very easy for an attacker to submit
+a false latitude and longititude check-in to the database, and this is arugably
+the most important security vulnerability.</li>
+       <li>Description:</li>
+       <li>Resoltuion:</li>
+     </ul>
+  </div>
+  
+  <h2>Conclusion</h2>
+</body>
+</head>
+</html>

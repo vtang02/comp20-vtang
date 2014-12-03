@@ -1,0 +1,190 @@
+<!--Breaking arthurwhere -->
+
+<!DOCTYPE html>
+<html>
+  <title>arthurwhere security report</title>
+  <link rel="stylesheet" type="text/css" href="securitystyle.css"></link>
+<head>
+<body>
+  <h1>Security Assessment of Arthurwhere herokuapp (Assignment 4)</h1>
+
+  <p>By Victoria Tang</p>
+
+  <h2>Introduction</h2>
+<!--Description of the product and what you were hired to do -->
+  <p>I am testing the security of <a href="http://arthurwhere.herokuapp.com/">arthurwhere</a>, Arthus Berman's <a href="http://tuftsdev.github.io/WebProgramming/assignments/a3.html">Where in the World</a> assignment 3 for COMP20. 
+The product of <a href="http://tuftsdev.github.io/WebProgramming/assignments/a3.html">assignment 3</a> is a web interface that allows the user to see
+the check-in coordinates sent to the MongoDB database. It also allowed users
+to query for a login name and retrieve mbta redline coordinates. This 
+application is also a JSON-based API that allows web developers to submit 
+and retrieve check-in coordinates for Marauder's Map students and find 
+check-ins based on login name.</p>
+  <p>I was hired to find security vulnerabilities in this web application 
+and propose solutions for them. I have found 4 security problems.</p>
+
+  <h2>Methodology</h2>
+  <!--Describe methodology used in testing app, and the tools used -->
+  <p>I began with "black box" testing, where I attacked arthurwhere without
+viewing the source code. I submitted various malicious check-ins to the
+herokuapp by using curl and found several vulnerabilities. Then I viewed the
+source code and did a code review of it. After viewing the source code, I
+was able to better understand how my attacks during black-box testing were
+working.</p>
+
+  <h2>Abstract of Findings</h2>
+  <!--Provide an overview of all the security issues you identified -->
+  <p>The security vulnerabilities I found were all due to the application 
+assuming that user input is valid, correctly formatted, and not malicious.
+We cannot assume that the user will always give input in the correct format.
+For example, a hacker can insert script  and html tags into the login field,
+allowing potentially malicious code and html content to the page. A hacker
+ is also allowed to input whatever lat/lng he wants, thus falsifying his 
+location and potentially. The solution to these input validation problems 
+would be to filter out invalid user input </p>
+
+  <h2>Issues Found</h2>
+  
+  <div>
+  <h3>1. Cross-Site Scripting</h3>
+    <ul>
+      <li>Affects /sendLocation page</li>
+      <li><span>Risk: High</span>    Hackers can insert html tags, script 
+tags, and other unexpected input. Users of this API expect valid login names
+and would not be able to handle JSON in an unexpected format.</li>
+      <li>Description: Inserting html or javascript in the login field 
+could cause a user's application to run that code or modify that user's 
+page. In the first screenshot, submitting a login as <code>&lt;script type="text/javascript"&gt; alert("1111"); &lt;/script&gt;</code> yielded an alert box on 
+the web
+interface. If a client application received a script as a login, it could
+execute this script, which would be dangerous and could crash the application
+depending on the script contents. Similarly, in the second screenshot, an 
+iframe was inserted into the login field. This type of input is definitely what
+the client application wants.</li>
+      
+      <li><img src="1111login.PNG" alt="script alert box"></li>
+      <li><img src="iframecorgi.png" alt="omfg dogs"></li>
+     
+      <li>Resolution: This issue can be resolved by sanitizing inputs before 
+they are inserted into the database. HTML escaping on could be done to filter
+out potentially dangerous characters. According to <a href="https://www.owasp.org/index.php/Talk:Testing_for_Cross_site_scripting">OWASP</a>, we could the PHP function strip_tags() to remove html tags and htmlspecialcharacters() to
+encode characters like &, <, and > into html. This way, the client application
+will not mistake input as being executable //WHAT IS THE CODE THO</li>      
+    </ul>
+  </div>
+ 
+  <div>
+  <h3>2. Request Injection Attack</h3>
+      <ul>
+	<li>Affects /locations.json page</li>
+	<li><span>Risk: Medium</span>    Querying the database with 
+"login[$ne]=username" will return all entries in which the login is NOT the same
+as the username. The attacker could use this to trick the server into running
+unintended queries or accessing data with authentication. However, there is a
+solution to this security vulnerability.</li> 
+	<li>Description: Using [$ne] (or other MongoDB fields like $gt to get
+entries greater than or $where to pass javascript functions) can be dangerous.
+If there is private data or check-ins that the client should not be accessing,
+[$ne] would show them this private data. For example, in the image below, 
+querying in [$ne] "break" returned a JSON object with all entries whose logins
+were not "break". However, some of the entries had malicious or improper fields.
+ Perhaps the client should not be able to use those improper entries.</li>
+	
+	<li><img src="requestinjection.png" alt="$ne query"></li>
+	
+	<li>Resolution: In app.post for sendLocation, we could parse the login 
+for "[", "]", and "$" and then convert them to encoded form. We could also 
+perform character stripping in which we forbid characters like "[", "]", and 
+"$" in the login. //WHAT IS THE CODE THO??</li>
+      </ul>
+  </div>
+  
+  <div>
+  <h3>3. Access Control</h3>
+  <!--the issue name, location where issues was found/severity of issue
+with justification/description of issue--how did you find it and screenshot / 
+proof of vulnerability with screenshot/resolution--show code -->
+     <ul>
+       <li>Affects / , /locations.json, and /redline.json</li>
+       <li><span>Risk: Low</span>   Currently, any and all domains are able
+to access data from the database using this API web application. If our
+database contains private information, we would not want everyone to be able to
+access that information.</li> 
+       <li>Description: As seen in the first image below, loading the / page 
+with TamperData for Mozilla firefox suggested that cross-origin resource sharing
+ was allowed for all "*" domains ("access-control-allow-origin *" in the 
+Response Header section). Upon viewing the source code, I saw <code>res.header("Access-Control-Allow-Origin", "*");</code> and <code>res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");</code>. This 
+is problematic because with this any domain can access the check-in
+information. This becomes an issue when too many people are querying the 
+database and the server becomes slow. Also, an API should generally have an
+intended audience, and not any/all domains. 
+</li>
+       <li><img src="CORS.PNG" alt= "tamper data"</li>
+       <li>Resolution: The solution would be to set access control such that
+only the intended users of the API may access it. Since assignment3 was 
+supposed to be the server used in assignment2, which is hosted on github, it 
+would make sense to use <code>response.header("Access-Control-Allow-Origin", "github.com")</code> instead. This way, only clients on github could access 
+check-in information.</li>
+     </ul>
+  </div>
+
+  <div>
+  <h3>4. Falsification of Data</h3>
+     <ul>
+       <li> Affects /sendLocation (but really the entire web application</li>
+       <li><span>Risk: High</span>    It is very easy for an attacker to submit
+a false latitude and longititude check-in to the database, and this is arugably
+the most important security vulnerability of all.</li>
+       <li>Description: Using <code>curl --data "login=break&lat=10000000&lng=1000000" arthurwhere.herokuapp.com/sendLocation</code> I was able to falsify my 
+coordinates. In the first image below, 1000000 and 1000000 are obviously 
+invalid latitudes and longitudes
+but they were still inserted as entries into the database. The Marauder's Map
+expected valid coordinates, and if it received these coordinates, it may not be
+properly equipped to handle this invalid input.</li>
+       <li><img src="NaNvalidator.png" alt="bad latlng"></li>
+       <li>Similarly, using <code>curl --data "login=breakyeah&lat=MEOW&lng=MEOW" arthurwhere.herokuapp.com/sendLocation</code> I was still able to create an
+entry in the database even though "MEOW" is not a valid coordinate. The lat and
+lng were recorded as NaN (as seen in the image above), suggesting that there 
+was some error handling in the server but probably not enough. 
+After a code review code review, I saw <code>lat: parseFloat(request.body.lat)</code> and <code>lng: parseFloat(request.body.lng)</code> (see image below).
+ parseFloat parses
+a string a returns a floating point number. Again, the Marauder's Map client
+would be able to handle invalid lat and lng like NaN becuase it is expecting
+lat to be -90 to 90 and lng to be -180 to 180. </li>
+       <li><img src="parsefloat.PNG" alt="parse float"</li>
+       <li>Resoltuion: The solution to this problem would be to use the 
+validator. In the package.json, install the validator as a dependency. In the
+server.js, utilize error handling such as:</li>
+       <li><code>if (login != undefinied && lat != undefined && lng !=
+undefined && validator.isFloat(lat) && validator.isFloat(lng)) { </br>
+	   if (lng <= -180 && lng >= -180 && lat <= 90 && lat >= -90) { </br>
+</code> and then inserting the entry into the locations collection. This 
+solution addresses invalid input, but we still need to prevent attackers
+from falsifying their coordinates (even if those coordinates are formatted
+correctly). We need to make sure that coordinates are being sent from the 
+user's actual location. To do this, the user of the Marauder's Map could get a
+randomly generated access code and would need to enter that code before being
+so send his lat and lng to the server database. This way, attackers could not
+post false coordinates to the database because they would not have an access
+code</li>
+     </ul>
+  </div>
+  
+  <h2>Conclusion</h2>
+  <!--Future considerations and recommendations with costs -->
+  <p>These security vulnerabilities make it easy for an attacker to abuse 
+arthurwhere.herokuapp.com. Cross-site scripting allows for unwanted 
+javascript actions. Request injection makes potentially private information
+to be accessed. Fully open access to the API allows any domain, intended or
+unintended, to access check-in information. Falsification of location is the
+biggest issue, because an attacker can pretend to be anywhere in the world,
+and this issue makes it difficult to trust the coordinates we get from the 
+API. Attackers could take advantage of these vulnerabilities to break the
+application and give incorrect information to users of Marauder's Map. If 
+users notice this incorrect information, the will stop using the Marauder's 
+Map. If my suggested solutions are implemented, this application will be 
+much more secure. I would charge $300 to implement these changes. I would
+also perform a follow-up security evaluation to check for remaining
+security issues.</p>
+</body>
+</head>
+</html>
