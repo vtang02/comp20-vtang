@@ -48,10 +48,16 @@ with justification/description of issues--how did you find it and
 screenshot/proof of vulnerability with screenshot/resolution--show code -->
   <h3>1. Cross-Site Scripting</h3>
     <ul>
-      <li>Affects GET API</li>
-      <li>Risk Level:</li>
-      <li><tr><td><img src=" " alt="pre-injection" title="Before injection" /></td>
-      <td><img src=" " alt="post-injection" title="After injection" /></td></tr></li>
+      <li>Affects /sendLocation page</li>
+      <li><span>Severity High</span>: Hackers can insert html tags, script 
+tags, and other unexpected input. Users of this API expect valid login names
+and would not be able to handle JSON in an unexpected format.</li>
+      <li>Description: Inserting html or javascript in the login field 
+could cause a user's application to run that code or modify that user's 
+page. In the first screenshot, submitting a login as <code><script type="text/javascript">alert("1111");</script></code> yielded an alert box on the web 
+interface. If a client application received this script as a login, it could
+execute this script, which would be dangerous. </li>
+      <li><img src="1111login.PNG" alt="script alert box"></li>
       <li>This issue can be resolved</li>      
     </ul>
     
