@@ -5,6 +5,7 @@
   <title>arthurwhere security report</title>
   <link rel="stylesheet" type="text/css" href="securitystyle.css"></link>
 <head>
+</head>
 <body>
   <h1>Security Assessment of Arthurwhere herokuapp (Assignment 4)</h1>
 
@@ -66,9 +67,10 @@ the client application wants.</li>
      
       <li>Resolution: This issue can be resolved by sanitizing inputs before 
 they are inserted into the database. HTML escaping on could be done to filter
-out potentially dangerous characters. According to <a href="https://www.owasp.org/index.php/Talk:Testing_for_Cross_site_scripting">OWASP</a>, we could the PHP function strip_tags() to remove html tags and htmlspecialcharacters() to
+out potentially dangerous characters. We could use the Nodejs package called
+strings.js to
 encode characters like &, <, and > into html. This way, the client application
-will not mistake input as being executable //WHAT IS THE CODE THO</li>      
+will not mistake input as being executable</li>      
     </ul>
   </div>
  
@@ -186,5 +188,4 @@ much more secure. I would charge $300 to implement these changes. I would
 also perform a follow-up security evaluation to check for remaining
 security issues.</p>
 </body>
-</head>
 </html>
