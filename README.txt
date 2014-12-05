@@ -18,5 +18,12 @@ pretty awesome. Even though I have learned a lot, I also realize that
 the web is huge and I can keep learning more and more.
 
 4. What was the most important thing you learned from this course?  
-The client-server model. And also that google is my friend (but be careful
-because there is a lot of incorrect info on the web).
+The client-server model. We had assignment 2 (client) and assignment 3
+(server) to show us how client and server interact. I also learned
+that google is my friend (but be careful because there is a lot of 
+incorrect info on the web).
+
+5. What topic would you like to delve deeper into?
+I want to learn more about web security, seems like a big problem
+that I often just an afterthought.
+
